@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Profil Akun</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      .profile-box {
+        background: #f8f8f8;
+        padding: 32px;
+        max-width: 400px;
+        margin: 40px auto;
+        border-radius: 10px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+      }
+      .profile-box h1 {
+        margin-top: 0;
+      }
+      .profile-item {
+        margin: 12px 0;
+        font-size: 17px;
+        color: #333;
+      }
+      .profile-photo {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        object-fit: cover;
+        display: block;
+        margin-bottom: 10px;
+      }
+      label {
+        display: block;
+        margin-top: 12px;
+        font-weight: bold;
+      }
+      input,
+      textarea {
+        width: 100%;
+        margin-bottom: 8px;
+        padding: 7px 8px;
+        border-radius: 5px;
+        border: 1px solid #bbb;
+      }
+      button {
+        padding: 6px 18px;
+        border-radius: 5px;
+        border: none;
+        background: #1e8870;
+        color: #fff;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      #hapusAlamat {
+        background: #e53935;
+      }
+      #ubahAlamat {
+        background: #ff9800;
+      }
+      #simpanAlamat {
+        background: #1e8870;
+      }
+      #simpanProfil {
+        margin-top: 10px;
+      }
+      #alamatDisplay {
+        min-height: 40px;
+        white-space: pre-line;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <a href="index.html">Katalog</a>
+      <a href="#" onclick="logout()">Logout</a>
+    </nav>
+    <div class="profile-box">
+      <h1>Profil Akun</h1>
+      <form id="profilForm" autocomplete="off">
+        <label for="fotoProfil">Foto Profil:</label>
+        <img
+          src="default-profile.png"
+          alt="Foto Profil"
+          id="previewFoto"
+          class="profile-photo"
+        />
+        <input type="file" id="fotoProfil" accept="image/*" />
+
+        <label for="username">Username:</label>
+        <input type="text" id="username" required />
+
+        <label for="nohp">No HP:</label>
+        <input type="tel" id="nohp" required pattern="^[0-9+\- ]{8,15}$" />
+
+        <button type="submit" id="simpanProfil">Simpan Profil</button>
+      </form>
+
+      <hr />
+
+      <h2>Alamat Pengiriman:</h2>
+      <div id="alamatDisplay"></div>
+      <textarea id="alamatEdit" rows="3" style="display: none"></textarea>
+      <div style="margin-top: 8px">
+        <button id="ubahAlamat" type="button">Ubah Alamat</button>
+        <button id="simpanAlamat" type="button" style="display: none">
+          Simpan Alamat
+        </button>
+        <button id="hapusAlamat" type="button">Hapus Alamat</button>
+      </div>
+    </div>
+    <script>
+      // Default foto jika user belum upload
+      const defaultPhoto =
+        "https://ui-avatars.com/api/?name=User&background=ddd&color=444&size=90";
+
+      // Ambil data profil dari localStorage
+      function loadProfile() {
+        const data = JSON.parse(localStorage.getItem("profileData") || "{}");
+        document.getElementById("username").value = data.username || "";
+        document.getElementById("nohp").value = data.nohp || "";
+        document.getElementById("previewFoto").src = data.foto || defaultPhoto;
+        document.getElementById("alamatDisplay").textContent =
+          data.alamat || "(belum ada alamat)";
+        document.getElementById("alamatEdit").value = data.alamat || "";
+      }
+
+      // Simpan data profil ke localStorage
+      function saveProfile(e) {
+        e.preventDefault();
+        const username = document.getElementById("username").value.trim();
+        const nohp = document.getElementById("nohp").value.trim();
+        const foto = document.getElementById("previewFoto").src;
+        // Ambil alamat tersimpan (jangan timpa dengan value kosong jika tidak ada perubahan)
+        let data = JSON.parse(localStorage.getItem("profileData") || "{}");
+        const alamat = data.alamat || "";
+        data = { username, nohp, foto, alamat };
+        localStorage.setItem("profileData", JSON.stringify(data));
+        loadProfile();
+        alert("Profil berhasil disimpan!");
+      }
+
+      // Preview foto profil
+      document
+        .getElementById("fotoProfil")
+        .addEventListener("change", function (e) {
+          const file = e.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function (ev) {
+              document.getElementById("previewFoto").src = ev.target.result;
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+
+      // Ubah Alamat
+      document.getElementById("ubahAlamat").onclick = function () {
+        document.getElementById("alamatDisplay").style.display = "none";
+        document.getElementById("alamatEdit").style.display = "";
+        document.getElementById("simpanAlamat").style.display = "";
+        document.getElementById("ubahAlamat").style.display = "none";
+      };
+
+      // Simpan Alamat
+      document.getElementById("simpanAlamat").onclick = function () {
+        const alamatBaru = document.getElementById("alamatEdit").value.trim();
+        const data = JSON.parse(localStorage.getItem("profileData") || "{}");
+        data.alamat = alamatBaru;
+        localStorage.setItem("profileData", JSON.stringify(data));
+        document.getElementById("alamatDisplay").textContent =
+          alamatBaru || "(belum ada alamat)";
+        document.getElementById("alamatDisplay").style.display = "";
+        document.getElementById("alamatEdit").style.display = "none";
+        document.getElementById("simpanAlamat").style.display = "none";
+        document.getElementById("ubahAlamat").style.display = "";
+      };
+
+      // Hapus alamat pengiriman saja
+      document.getElementById("hapusAlamat").onclick = function () {
+        const data = JSON.parse(localStorage.getItem("profileData") || "{}");
+        data.alamat = "";
+        localStorage.setItem("profileData", JSON.stringify(data));
+        document.getElementById("alamatDisplay").textContent =
+          "(belum ada alamat)";
+        document.getElementById("alamatEdit").value = "";
+      };
+
+      document.getElementById("profilForm").onsubmit = saveProfile;
+
+      // Load data saat halaman dibuka
+      loadProfile();
+
+      // Dummy logout function
+      function logout() {
+        alert("Logout sukses! (simulasi)");
+        // window.location.href = "login.html";
+      }
+    </script>
+  </body>
+</html>

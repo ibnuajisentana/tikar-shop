@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Maps - Tikar Store</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <nav>
+      <span style="font-weight: bold">Tikar Store</span>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="maps.html">Maps</a>
+        <a href="#" id="cartIcon"> 🛒<span id="cartCount"></span> </a>
+        <a href="profile.html">Profil</a>
+        <a href="#" onclick="logout()">Logout</a>
+      </div>
+    </nav>
+    <h1>Lokasi Tikar Store</h1>
+    <!-- Ganti link src di bawah dengan hasil "Sematkan peta" dari Google Maps -->
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1978.8394528606777!2d108.79583847313654!3d-7.277329111046908!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6f78a4f3fd93ed%3A0x3e013cf9960f496b!2sBiru%20Hilir%2C%20Cijati%2C%20Kec.%20Cimanggu%2C%20Kabupaten%20Cilacap%2C%20Jawa%20Tengah%2053256!5e0!3m2!1sid!2sid!4v1750750110401!5m2!1sid!2sid"
+      width="500"
+      height="350"
+      style="border: 0"
+      allowfullscreen=""
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade"
+    >
+    </iframe>
+    <script src="script.js"></script>
+  </body>
+</html>

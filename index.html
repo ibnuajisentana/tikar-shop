@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Tikar Store - Toko Tikar Murah</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 24px;
+        background: #1e8870;
+      }
+      nav .nav-links {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+      }
+      #cartIcon {
+        font-size: 22px;
+        position: relative;
+        color: #fff;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      #cartCount {
+        font-size: 13px;
+        color: red;
+        position: absolute;
+        top: 0;
+        right: -10px;
+      }
+      #cartModal {
+        display: none;
+        position: fixed;
+        top: 72px;
+        right: 24px;
+        background: #fff;
+        border: 1px solid #ccc;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.16);
+        padding: 16px;
+        min-width: 320px;
+        z-index: 1000;
+        border-radius: 8px;
+      }
+      #cartModal h3 {
+        margin-top: 0;
+      }
+      #cartList {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        max-height: 230px;
+        overflow-y: auto;
+      }
+      #cartList li {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #ececec;
+        padding-bottom: 8px;
+      }
+      #cartList li img {
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+        border-radius: 4px;
+        margin-right: 12px;
+      }
+      #cartList li span {
+        flex: 1;
+      }
+      #cartList li button {
+        background: #ff4747;
+        color: #fff;
+        border: none;
+        border-radius: 3px;
+        padding: 4px 8px;
+        cursor: pointer;
+      }
+      #closeCart {
+        float: right;
+        cursor: pointer;
+        font-size: 18px;
+        color: #888;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <span style="font-weight: bold">Tikar Store</span>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="maps.html">Maps</a>
+        <a href="#" id="cartIcon"> 🛒<span id="cartCount"></span> </a>
+        <a href="profile.html">Profil</a>
+        <a href="#" onclick="logout()">Logout</a>
+      </div>
+    </nav>
+    <h1>Pilihan Tikar</h1>
+    <div class="product-card">
+      <img
+        src="c:\Users\User\Pictures\id-11134207-7r98s-lwwzwqpaz8jh05.jfif"
+        alt="Tikar Anyaman"
+        style="width: 100%; height: auto"
+      />
+      <h2 style="color: #1e8870; text-align: center; margin: 16px 0 8px 0">
+        Tikar Anyaman kecil
+      </h2>
+      <div style="text-align: center">
+        <b>Ukuran:</b> 1,5m x 1.0m <br />
+        <span style="font-size: 14px; color: #555">
+          Tikar anyaman ini terbuat dari daun pandan berkualitas, cocok untuk
+          piknik, acara keluarga, atau alas lantai rumah.
+        </span>
+      </div>
+      <div style="text-align: center; margin-top: 10px">
+        <span>Harga: Rp 35.000</span>
+      </div>
+      <div style="text-align: center; margin-top: 14px">
+        <label for="qty-tikar" style="margin-right: 6px">Jumlah:</label>
+        <input
+          type="number"
+          id="qty-tikar"
+          min="1"
+          value="1"
+          style="width: 50px; text-align: center"
+        />
+        <button
+          style="
+            padding: 8px 24px;
+            background: #1e8870;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+          "
+          onclick="
+        const qty = parseInt(document.getElementById('qty-tikar').value) || 1;
+        addToCart('Tikar Anyaman', 50000, 'gambar-tikar.jpg', qty);
+      "
+        >
+          Beli
+        </button>
+      </div>
+    </div>
+
+    <!-- Produk lain (jika ada) -->
+    <div class="product-card">
+      <img
+        src="c:\Users\User\Pictures\1275284743_96954948_2-Gambar--TIKAR-PANDAN-TRADISIONAL-1275284743.jpg"
+        alt="Tikar Anyaman"
+        style="width: 100%; height: auto"
+      />
+      <h2 style="color: #1e8870; text-align: center; margin: 16px 0 8px 0">
+        Tikar Anyaman
+      </h2>
+      <div style="text-align: center">
+        <b>Ukuran:</b> 2m x 1.5m <br />
+        <span style="font-size: 14px; color: #555">
+          Tikar anyaman ini terbuat dari daun pandan berkualitas, cocok untuk
+          piknik, acara keluarga, atau alas lantai rumah.
+        </span>
+      </div>
+      <div style="text-align: center; margin-top: 10px">
+        <span>Harga: Rp 50.000</span>
+      </div>
+      <div style="text-align: center; margin-top: 14px">
+        <label for="qty-tikar" style="margin-right: 6px">Jumlah:</label>
+        <input
+          type="number"
+          id="qty-tikar"
+          min="1"
+          value="1"
+          style="width: 50px; text-align: center"
+        />
+        <button
+          style="
+            padding: 8px 24px;
+            background: #1e8870;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+          "
+          onclick="
+        const qty = parseInt(document.getElementById('qty-tikar').value) || 1;
+        addToCart('Tikar Anyaman', 50000, 'gambar-tikar.jpg', qty);
+      "
+        >
+          Beli
+        </button>
+      </div>
+    </div>
+
+    <!-- Produk lain (jika ada) -->
+    <div class="product-card">
+      <img
+        src="c:\Users\User\Pictures\3b2c824cc70fc71e1cea61f789ee88.jpg"
+        alt="Tikar Anyaman"
+        style="width: 100%; height: auto"
+      />
+      <h2 style="color: #1e8870; text-align: center; margin: 16px 0 8px 0">
+        anyaman Anyaman daun pandan
+      </h2>
+      <div style="text-align: center">
+        <b>Ukuran:</b> 2m x 1.5m <br />
+        <span style="font-size: 14px; color: #555">
+          Tas selempang anyaman ini terbuat dari daun pandan berkualitas, cocok
+          untuk piknik, dan acara keluarga.
+        </span>
+      </div>
+      <div style="text-align: center; margin-top: 10px">
+        <span>Harga: Rp 80.000</span>
+      </div>
+      <div style="text-align: center; margin-top: 14px">
+        <label for="qty-tikar" style="margin-right: 6px">Jumlah:</label>
+        <input
+          type="number"
+          id="qty-tikar"
+          min="1"
+          value="1"
+          style="width: 50px; text-align: center"
+        />
+        <button
+          style="
+            padding: 8px 24px;
+            background: #1e8870;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+          "
+          onclick="
+        const qty = parseInt(document.getElementById('qty-tikar').value) || 1;
+        addToCart('Tikar Anyaman', 50000, 'gambar-tikar.jpg', qty);
+      "
+        >
+          Beli
+        </button>
+      </div>
+    </div>
+
+    <!-- Modal keranjang -->
+    <div id="cartModal">
+      <span id="closeCart" title="Tutup">&times;</span>
+      <h3>Keranjang Belanja</h3>
+      <ul id="cartList"></ul>
+      <p
+        id="emptyCartMsg"
+        style="text-align: center; color: #888; display: none"
+      >
+        Keranjang masih kosong.
+      </p>
+      <!-- Tambahkan tombol checkout di sini -->
+      <button
+        id="checkoutBtn"
+        style="
+          margin-top: 12px;
+          padding: 8px 24px;
+          background: #1e8870;
+          color: #fff;
+          border: none;
+          border-radius: 6px;
+        "
+      >
+        Checkout
+      </button>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

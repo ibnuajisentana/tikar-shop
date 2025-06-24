@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Daftar Akun - Tikar Store</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="login-container">
+      <h1>Daftar Akun</h1>
+      <form id="registerForm">
+        <label>Email</label>
+        <input type="email" id="email" required />
+        <label>Password</label>
+        <input type="password" id="password" required minlength="4" />
+        <button type="submit">Daftar</button>
+      </form>
+      <p id="registerError" style="color: red"></p>
+      <p id="registerSuccess" style="color: green"></p>
+      <p>Sudah punya akun? <a href="login.html">Login di sini</a></p>
+    </div>
+    <script>
+      document.getElementById("registerForm").onsubmit = function (e) {
+        e.preventDefault();
+        const email = document.getElementById("email").value.trim();
+        const pass = document.getElementById("password").value;
+        let users = JSON.parse(localStorage.getItem("users") || "[]");
+
+        // Cek apakah email sudah terdaftar
+        if (users.some((u) => u.email === email)) {
+          document.getElementById("registerError").innerText =
+            "Email sudah terdaftar.";
+          document.getElementById("registerSuccess").innerText = "";
+          return;
+        }
+        // Simpan user baru
+        users.push({ email, password: pass });
+        localStorage.setItem("users", JSON.stringify(users));
+        document.getElementById("registerSuccess").innerText =
+          "Pendaftaran berhasil! Silakan login.";
+        document.getElementById("registerError").innerText = "";
+        // Kosongkan form
+        document.getElementById("registerForm").reset();
+      };
+
+      // Jika sudah login, langsung ke index
+      if (localStorage.getItem("loginUser"))
+        window.location.href = "index.html";
+    </script>
+  </body>
+</html>
